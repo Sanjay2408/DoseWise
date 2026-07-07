@@ -1,10 +1,15 @@
 """
-LLM (Gemini) layer: used ONLY to summarize trends for caregivers.
+LLM layer (Groq or Gemini): used ONLY to summarize trends for caregivers.
 Does NOT diagnose, prescribe, or override rules. Called only when alerts exist.
+
+Provider selection: GROQ_API_KEY is used if set, otherwise GEMINI_API_KEY,
+otherwise a safe rule-based fallback summary.
 """
 import logging
 import os
 from typing import Any, List
+
+import httpx
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +19,34 @@ _gemini_model = None
 # Hard cap on how long a single LLM call may take; a slow or unreachable API
 # must never hang a request (summaries fall back to the rule-based text).
 LLM_TIMEOUT_SECONDS = int(os.environ.get("LLM_TIMEOUT_SECONDS", "20"))
+
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+_GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+
+
+def _groq_generate(prompt: str, max_tokens: int) -> str | None:
+    """Call Groq's OpenAI-compatible chat API. Returns None on any failure."""
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not api_key:
+        return None
+    try:
+        resp = httpx.post(
+            _GROQ_URL,
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={
+                "model": GROQ_MODEL,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": max_tokens,
+                "temperature": 0.3,
+            },
+            timeout=LLM_TIMEOUT_SECONDS,
+        )
+        resp.raise_for_status()
+        text = resp.json()["choices"][0]["message"]["content"]
+        return text.strip() if text else None
+    except Exception as e:
+        logger.warning("Groq generate failed: %s", e)
+        return None
 
 
 def _get_model():
@@ -47,12 +80,18 @@ def generate_caregiver_summary(
     if not alerts:
         return "No alerts at this time. Patient data is within expected ranges."
 
+    prompt = _build_prompt(patient_data, alerts, historical_context)
+
+    # Groq first (if configured), then Gemini, then rule-based fallback
+    groq_text = _groq_generate(prompt, max_tokens)
+    if groq_text:
+        return groq_text
+
     model = _get_model()
     if model is None:
         return _fallback_summary(alerts, patient_data, historical_context)
 
     try:
-        prompt = _build_prompt(patient_data, alerts, historical_context)
         response = model.generate_content(
             prompt,
             generation_config={
