@@ -1,0 +1,264 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: var(--shadow-sm);
+}
+
+.app-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.header-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.header-user {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Big icon buttons instead of a thin text nav — easier to see and tap */
+.app-nav {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 90px;
+    min-height: var(--tap-target);
+    padding: 0.6rem 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: var(--background-color);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.nav-btn .nav-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.nav-btn:hover {
+    border-color: var(--primary-color);
+    background: #eff6ff;
+}
+
+.nav-btn.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: #eff6ff;
+}
+
+.nav-logout {
+    color: var(--text-secondary);
+}
+
+/* Text size toggle */
+.text-size-toggle {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.text-size-toggle button {
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--surface-color);
+    font-weight: 700;
+}
+
+.text-size-toggle button.active {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: #eff6ff;
+}
+
+.app-main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Pill Card Styles */
+.pill-card {
+    background: var(--surface-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border-left: 5px solid var(--primary-color);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s;
+}
+
+.pill-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.pill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.pill-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.dosage {
+    background: #eff6ff;
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.pill-details p {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.pill-actions {
+    margin-top: 1.5rem;
+}
+
+.pill-actions button {
+    width: 100%;
+    padding: 1.15rem;
+    border-radius: var(--radius-md);
+    background: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.pill-actions button:disabled {
+    background: var(--text-secondary);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pill-actions button.taken {
+    background: var(--secondary-color);
+}
+
+/* Setup Page */
+.setup-page {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.setup-form {
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Caregiver Dashboard */
+.caregiver-page h1 {
+    margin-bottom: 2rem;
+}
+
+.alerts-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.alert-card {
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-left: 4px solid var(--danger-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+}
+
+.alert-card h3 {
+    color: var(--danger-color);
+    margin-top: 0;
+}
+
+.alert-card button {
+    background: white;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    margin-top: 0.5rem;
+}
+
+.alert-card button:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .app-main {
+        padding: 1rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
