@@ -2,6 +2,8 @@
 
 **A medication companion for older adults and the people who care for them.**
 
+**Live demo:** https://dosewise-eight.vercel.app (create an account to try it; demo data resets, see [Deploying to Vercel](#deploying-to-vercel))
+
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.2+-61dafb.svg)](https://reactjs.org/)
