@@ -14,7 +14,9 @@ from pathlib import Path
 from threading import Lock
 from typing import Any, Optional
 
-_STORAGE_DIR = Path(__file__).resolve().parent
+from app.config import DATA_DIR
+
+_STORAGE_DIR = DATA_DIR
 DB_PATH = _STORAGE_DIR / "dosewise.db"
 
 # sqlite3 connections are cheap; a short-lived connection per operation with a

@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 load_dotenv()
 
+from app.config import DATA_DIR
 from app.storage.db import init_db
 
 init_db()
@@ -37,7 +38,7 @@ app.include_router(auth_router)
 app.include_router(router)
 
 # Medication images are stored per-user under storage/images/<user_id>/
-IMAGES_DIR = Path(__file__).resolve().parent / "storage" / "images"
+IMAGES_DIR = DATA_DIR / "images"
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
 

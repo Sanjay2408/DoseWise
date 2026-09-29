@@ -18,10 +18,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, EmailStr, Field
 
+from app.config import DATA_DIR
 from app.storage import db
 
 TOKEN_TTL_HOURS = int(os.environ.get("JWT_TTL_HOURS", "72"))
-_SECRET_FILE = Path(__file__).resolve().parent / "storage" / ".jwt_secret"
+_SECRET_FILE = DATA_DIR / ".jwt_secret"
 
 
 def _get_secret() -> str:

@@ -75,6 +75,14 @@ npm start                    # opens http://localhost:3000
 3. The **Home** page shows today's schedule with one big button per medicine.
 4. The **Caregiver** page shows alerts, AI summaries, trends and daily reports.
 
+## Deploying to Vercel
+
+The repo deploys as one Vercel project: the React app is built as static files and the FastAPI backend runs as a single Python function (`api/index.py`). `vercel.json` routes `/api/*` and `/images/*` to the function and everything else to the React app.
+
+- `requirements.txt` at the root lists only what the backend imports. It leaves out `google-generativeai` (about 140 MB installed); on Vercel, caregiver summaries use Groq when `GROQ_API_KEY` is set and rule-based text otherwise.
+- Serverless functions can only write to `/tmp`, so `app/config.py` moves the data directory there when `VERCEL` is set. That storage is per instance and resets when the instance is recycled, so the hosted version is a demo: accounts and data do not persist long term. Point `DOSEWISE_DATA_DIR` at persistent storage, or swap SQLite for a hosted database, for real use.
+- Set `JWT_SECRET` in the Vercel project so sessions stay valid across instances.
+
 ## Environment variables (backend/.env)
 
 All optional — see [backend/.env.example](backend/.env.example) for the full annotated list.

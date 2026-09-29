@@ -1,0 +1,14 @@
+# Dependencies for the Vercel function (api/index.py): the packages the
+# backend actually imports, pinned as in backend/requirements.txt.
+# Left out on purpose: uvicorn (Vercel runs the ASGI app itself) and
+# google-generativeai (~140 MB installed). On Vercel, caregiver summaries
+# use Groq when GROQ_API_KEY is set and fall back to rule-based text.
+fastapi==0.104.1
+pydantic==2.9.2
+langgraph==0.2.76
+httpx==0.25.2
+bcrypt==4.1.2
+PyJWT==2.8.0
+email-validator>=2.0.0
+python-dotenv==1.0.0
+python-multipart==0.0.6

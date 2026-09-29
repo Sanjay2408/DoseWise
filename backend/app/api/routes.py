@@ -43,11 +43,12 @@ from app.intelligence.historical_analyzer import (
 from app.medication.inventory import InventoryManager
 from app.medication.registry import MedicationRegistry
 from app.medication.schedule import ScheduleManager
+from app.config import DATA_DIR
 from app.storage import db
 
 logger = logging.getLogger(__name__)
 
-_STORAGE_DIR = Path(__file__).resolve().parent.parent / "storage"
+_STORAGE_DIR = DATA_DIR
 
 # The agent is synchronous (LangGraph + optional LLM call). Run it off the
 # event loop with a hard timeout so one slow run can never freeze the server.
